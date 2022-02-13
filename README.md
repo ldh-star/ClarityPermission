@@ -42,3 +42,5 @@ requestPermissionsWithCallback(Manifest.permission.CAMERA) { result ->
                 }
             }
 ```
+
+对了，除了这些以外还有一些小工具放在PermissionExt.kt中的，可以去使用

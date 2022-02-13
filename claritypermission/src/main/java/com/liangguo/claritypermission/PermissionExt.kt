@@ -2,7 +2,10 @@ package com.liangguo.claritypermission
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
@@ -34,3 +37,19 @@ fun Activity.isPermissionDeniedPermanently(permission: String) =
 fun Context.filterDeniedPermissions(permissions: Array<out String>) = permissions.filter {
     ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
 }.toTypedArray()
+
+
+/**
+ * 打开系统设置界面
+ */
+fun Context.openSystemSetting() {
+    val intent = Intent()
+    intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+    val uri = Uri.fromParts(
+        "package",
+        packageName,
+        null
+    )
+    intent.data = uri
+    startActivity(intent)
+}
