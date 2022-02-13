@@ -45,11 +45,10 @@ fun Context.filterDeniedPermissions(permissions: Array<out String>) = permission
 fun Context.openSystemSetting() {
     val intent = Intent()
     intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-    val uri = Uri.fromParts(
+    intent.data = Uri.fromParts(
         "package",
         packageName,
         null
     )
-    intent.data = uri
     startActivity(intent)
 }
