@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.liangguo.claritypermission.requestPermissionsWithCallback
 import com.liangguo.claritypermission.requestPermissionsWithCoroutine
 import com.liangguo.claritypermission.core.PermissionResult
+import com.liangguo.claritypermission.requestPermissions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -33,5 +34,12 @@ class MainActivity : AppCompatActivity() {
             }
             Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
         }
+
+        requestPermissions(Manifest.permission.RECORD_AUDIO).granted {
+            //权限被同意
+        }.denied {
+            //权限被拒绝
+        }
+
     }
 }

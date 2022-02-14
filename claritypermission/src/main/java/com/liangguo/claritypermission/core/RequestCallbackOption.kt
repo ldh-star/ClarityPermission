@@ -1,4 +1,4 @@
-package com.liangguo.claritypermission
+package com.liangguo.claritypermission.core
 
 import com.liangguo.claritypermission.core.PermissionResult
 
@@ -17,16 +17,17 @@ class RequestCallbackOption {
     private var canceledCallback: ((canceled: PermissionResult.Cancel) -> Unit)? = null
 
     fun granted(grantedCallback: ((granted: PermissionResult.Granted) -> Unit)? = null) =
-        with(this) {
+        this.apply {
             this.grantedCallback = grantedCallback
         }
 
-    fun denied(deniedCallback: ((denied: PermissionResult.Denied) -> Unit)? = null) = with(this) {
-        this.deniedCallback = deniedCallback
-    }
+    fun denied(deniedCallback: ((denied: PermissionResult.Denied) -> Unit)? = null) =
+        this.apply {
+            this.deniedCallback = deniedCallback
+        }
 
     fun canceled(canceledCallback: ((canceled: PermissionResult.Cancel) -> Unit)? = null) =
-        with(this) {
+        this.apply {
             this.canceledCallback = canceledCallback
         }
 

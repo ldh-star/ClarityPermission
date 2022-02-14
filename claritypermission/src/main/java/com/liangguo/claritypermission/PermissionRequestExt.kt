@@ -4,6 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.liangguo.claritypermission.core.IPermissionResultCallback
 import com.liangguo.claritypermission.core.PermissionResult
+import com.liangguo.claritypermission.core.RequestCallbackOption
 import com.liangguo.claritypermission.core.RequestLauncher
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
