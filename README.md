@@ -29,6 +29,17 @@ requestPermissionsWithCallback(Manifest.permission.CAMERA) { result ->
 }
 ```
 
+##### 还有另一种形式
+```kotlin
+requestPermissions(Manifest.permission.RECORD_AUDIO).granted {
+    //权限被同意
+}.denied {
+    //权限被拒绝
+}
+
+```
+
+
 ##### 返回结果 result
 
 ```kotlin
