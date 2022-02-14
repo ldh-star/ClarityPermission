@@ -2,10 +2,7 @@ package com.liangguo.claritypermission
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.liangguo.claritypermission.core.IPermissionResultCallback
-import com.liangguo.claritypermission.core.PermissionResult
-import com.liangguo.claritypermission.core.RequestCallbackOption
-import com.liangguo.claritypermission.core.RequestLauncher
+import com.liangguo.claritypermission.core.*
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -40,6 +37,7 @@ private fun requestPermissionsCore(
     resultCallback: (permissionResult: PermissionResult) -> Unit
 ) {
     //提前先检查一遍，如果所有权限都是已授权的，那就不去启动那个fragment了，直接进行回调
+
     permissions.firstOrNull { !activity.isPermissionGranted(it) }?.let {
         RequestLauncher(activity)
             .setCallBack(object : IPermissionResultCallback {
@@ -124,9 +122,11 @@ fun Fragment.requestPermissions(
 fun FragmentActivity.requestPermissions(
     vararg permissions: String
 ): RequestCallbackOption {
-    val requestCallbackOption = RequestCallbackOption()
-    requestPermissionsWithCallback(*permissions) {
-        requestCallbackOption.invoke(it)
+    return RequestCallbackOption().apply {
+        MainExecutor.post {
+            requestPermissionsWithCallback(*permissions) {
+                invoke(it)
+            }
+        }
     }
-    return requestCallbackOption
 }

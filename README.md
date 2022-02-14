@@ -10,7 +10,7 @@
 
 
 ```gradle
-implementation 'com.github.ldh-star:ClarityPermission:1.0.4'
+implementation 'com.github.ldh-star:ClarityPermission:1.0.5'
 ```
 
 #### 2.使用

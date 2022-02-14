@@ -1,7 +1,9 @@
 package com.liangguo.claritypermissionsample
 
 import android.Manifest
+import android.Manifest.permission.*
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,18 +30,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun click2(view: View) {
-        requestPermissionsWithCallback(Manifest.permission.CAMERA) {
-            if (it is PermissionResult.Denied) {
-                it.deniedPermissions
-            }
-            Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
-        }
+//        requestPermissionsWithCallback(Manifest.permission.CAMERA) {
+//            if (it is PermissionResult.Denied) {
+//                it.deniedPermissions
+//            }
+//            Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
+//        }
+//
+//        requestPermissions(Manifest.permission.RECORD_AUDIO).granted {
+//            //权限被同意
+//        }.denied {
+//            //权限被拒绝
+//        }
 
-        requestPermissions(Manifest.permission.RECORD_AUDIO).granted {
-            //权限被同意
+        requestPermissions(
+            CAMERA,
+            RECORD_AUDIO,
+            READ_EXTERNAL_STORAGE,
+            WRITE_EXTERNAL_STORAGE
+        ).granted {
+            Log.e("为何", "我靠" + it)
         }.denied {
-            //权限被拒绝
-        }
+            Log.e("为何", "我靠" + it)
+        }.canceled {
+            Log.e("为何", "我靠" + it)
 
+        }
     }
 }

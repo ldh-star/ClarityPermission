@@ -1,7 +1,5 @@
 package com.liangguo.claritypermission.core
 
-import com.liangguo.claritypermission.core.PermissionResult
-
 
 /**
  * @author ldh
