@@ -32,6 +32,25 @@ internal fun CancellableContinuation<PermissionResult>.doRequest(
 }
 
 /**
+ *
+ */
+private fun requestPermissionsCore(
+    activity: FragmentActivity,
+    vararg permissions: String,
+    resultCallback: (permissionResult: PermissionResult) -> Unit
+) {
+    //提前先检查一遍，如果所有权限都是已授权的，那就不去启动那个fragment了，直接进行回调
+    permissions.firstOrNull { !activity.isPermissionGranted(it) }?.let {
+        RequestLauncher(activity)
+            .setCallBack(object : IPermissionResultCallback {
+                override fun onPermissionResult(permissionResult: PermissionResult) {
+                    resultCallback(permissionResult)
+                }
+            }).launch(permissions)
+    } ?: resultCallback(PermissionResult.Granted)
+}
+
+/**
  * 用协程的方式请求权限
  * @return 权限请求回调的结果，见[PermissionResult]
  */
@@ -57,12 +76,9 @@ fun FragmentActivity.requestPermissionsWithCallback(
     vararg permissions: String,
     resultCallback: (permissionResult: PermissionResult) -> Unit
 ) {
-    RequestLauncher(this)
-        .setCallBack(object : IPermissionResultCallback {
-            override fun onPermissionResult(permissionResult: PermissionResult) {
-                resultCallback(permissionResult)
-            }
-        }).launch(permissions)
+    requestPermissionsCore(this, *permissions) {
+        resultCallback(it)
+    }
 }
 
 /**

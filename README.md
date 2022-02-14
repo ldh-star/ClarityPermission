@@ -10,7 +10,7 @@
 
 
 ```gradle
-implementation 'com.github.ldh-star:ClarityPermission:1.0.3'
+implementation 'com.github.ldh-star:ClarityPermission:1.0.4'
 ```
 
 #### 2.使用
@@ -18,8 +18,8 @@ implementation 'com.github.ldh-star:ClarityPermission:1.0.3'
 ##### 以协程的方式使用
 ```kotlin
 CoroutineScope(Dispatchers.Main).launch {
-            val result = requestPermissionsWithCoroutine(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
+    val result = requestPermissionsWithCoroutine(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+}
 ```
 
 ##### 以回调函数的方式使用
@@ -44,14 +44,14 @@ requestPermissions(Manifest.permission.RECORD_AUDIO).granted {
 
 ```kotlin
  when (result) {
-                is PermissionResult.Granted -> {
-                    //权限全部同意
-                }
-                is PermissionResult.Denied -> {
-                    result.deniedPermissions//被拒绝的权限
-                    result.deniedPermissionsPermanently//被永久拒绝的权限
-                }
-            }
+     is PermissionResult.Granted -> {
+     //权限全部同意
+     }
+    is PermissionResult.Denied -> {
+        result.deniedPermissions//被拒绝的权限
+        result.deniedPermissionsPermanently//被永久拒绝的权限
+    }
+ }
 ```
 
 对了，除了这些以外还有一些小工具放在PermissionExt.kt中的，可以去使用
