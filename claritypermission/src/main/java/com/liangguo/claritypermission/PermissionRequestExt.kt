@@ -76,3 +76,40 @@ fun Fragment.requestPermissionsWithCallback(
         resultCallback(it)
     }
 }
+
+fun FragmentActivity.requestPermissionsWithCallback(
+    vararg permissions: String,
+    deniedCallback: (denied: PermissionResult.Denied) -> Unit = {},
+    grantedCallback: (granted: PermissionResult.Granted) -> Unit = {}
+) {
+    requestPermissionsWithCallback(*permissions) {
+        if (it is PermissionResult.Granted) {
+            grantedCallback(it)
+        }
+        if (it is PermissionResult.Denied) {
+            deniedCallback(it)
+        }
+    }
+}
+
+/**
+ * 回调函数式申请权限
+ * @return 返回的是[RequestCallbackOption]，通过这个对象来设置回调
+ */
+fun Fragment.requestPermissions(
+    vararg permissions: String
+) = requireActivity().requestPermissions(*permissions)
+
+/**
+ * 回调函数式申请权限
+ * @return 返回的是[RequestCallbackOption]，通过这个对象来设置回调
+ */
+fun FragmentActivity.requestPermissions(
+    vararg permissions: String
+): RequestCallbackOption {
+    val requestCallbackOption = RequestCallbackOption()
+    requestPermissionsWithCallback(*permissions) {
+        requestCallbackOption.invoke(it)
+    }
+    return requestCallbackOption
+}
