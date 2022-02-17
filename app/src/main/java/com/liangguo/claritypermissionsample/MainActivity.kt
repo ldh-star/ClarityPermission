@@ -1,19 +1,14 @@
 package com.liangguo.claritypermissionsample
 
-import android.Manifest
 import android.Manifest.permission.*
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.liangguo.claritypermission.requestPermissionsWithCallback
-import com.liangguo.claritypermission.requestPermissionsWithCoroutine
-import com.liangguo.claritypermission.core.PermissionResult
+import androidx.lifecycle.lifecycleScope
 import com.liangguo.claritypermission.requestPermissions
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.liangguo.claritypermission.requestPermissionsWithCoroutine
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,8 +18,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun click1(view: View) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val result = requestPermissionsWithCoroutine(WRITE_EXTERNAL_STORAGE)
+        lifecycleScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                requestPermissionsWithCoroutine(WRITE_EXTERNAL_STORAGE)
+            }
             Toast.makeText(this@MainActivity, result.javaClass.simpleName, Toast.LENGTH_LONG).show()
         }
     }
