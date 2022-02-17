@@ -10,11 +10,13 @@ import java.lang.ref.WeakReference
  * 时间: 2021/12/12 16:59
  * 邮箱: 2637614077@qq.com
  */
-internal class RequestLauncher(private val mActivityReference: WeakReference<FragmentActivity>) {
+internal class RequestLauncher(activity: FragmentActivity) {
 
     companion object {
         private const val FRAGMENT_TAG = "FRAGMENT_TAG"
     }
+
+    private val mActivityReference = WeakReference(activity)
 
     private var mRequestCallback: IPermissionResultCallback? = null
 
