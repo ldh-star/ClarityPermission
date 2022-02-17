@@ -29,7 +29,7 @@ internal fun CancellableContinuation<PermissionResult>.doRequest(
 }
 
 /**
- *
+ * 启动请求的核心方法
  */
 private fun requestPermissionsCore(
     activity: FragmentActivity,
