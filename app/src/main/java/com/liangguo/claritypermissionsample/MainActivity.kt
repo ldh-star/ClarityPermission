@@ -24,37 +24,32 @@ class MainActivity : AppCompatActivity() {
 
     fun click1(view: View) {
         CoroutineScope(Dispatchers.Main).launch {
-            val result = requestPermissionsWithCoroutine(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            val result = requestPermissionsWithCoroutine(WRITE_EXTERNAL_STORAGE)
             Toast.makeText(this@MainActivity, result.javaClass.simpleName, Toast.LENGTH_LONG).show()
         }
     }
 
     fun click2(view: View) {
-//        requestPermissionsWithCallback(Manifest.permission.CAMERA) {
-//            if (it is PermissionResult.Denied) {
-//                it.deniedPermissions
-//            }
-//            Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
-//        }
-//
-//        requestPermissions(Manifest.permission.RECORD_AUDIO).granted {
-//            //权限被同意
-//        }.denied {
-//            //权限被拒绝
-//        }
 
-        requestPermissions(
-            CAMERA,
-            RECORD_AUDIO,
-            READ_EXTERNAL_STORAGE,
-            WRITE_EXTERNAL_STORAGE
-        ).granted {
-            Log.e("为何", "我靠" + it)
+        requestPermissions(CAMERA, RECORD_AUDIO).granted {
+            //权限被同意
+            Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
+
         }.denied {
-            Log.e("为何", "我靠" + it)
-        }.canceled {
-            Log.e("为何", "我靠" + it)
+            //权限被拒绝
+            Toast.makeText(
+                this@MainActivity,
+                "拒绝:" + it.deniedPermissions + "  永久拒绝:" + it.deniedPermissionsPermanently,
+                Toast.LENGTH_LONG
+            ).show()
 
         }
+
+
+        requestPermissions(READ_CONTACTS, WRITE_CONTACTS).granted {
+            Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
+
+        }
+
     }
 }

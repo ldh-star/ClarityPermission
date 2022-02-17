@@ -23,7 +23,7 @@ internal fun CancellableContinuation<PermissionResult>.doRequest(
     activity.requestPermissionsWithCallback(*permissions) {
         resume(
             if (isActive) it
-            else PermissionResult.Cancel
+            else PermissionResult.Cancel()
         )
     }
 }
@@ -34,17 +34,18 @@ internal fun CancellableContinuation<PermissionResult>.doRequest(
 private fun requestPermissionsCore(
     activity: FragmentActivity,
     vararg permissions: String,
-    resultCallback: (permissionResult: PermissionResult) -> Unit
+    resultCallback: PermissionResultInterface
 ) {
     //提前先检查一遍，如果所有权限都是已授权的，那就不去启动那个fragment了，直接进行回调
-    permissions.firstOrNull { !activity.isPermissionGranted(it) }?.let {
-        RequestLauncher(activity)
-            .setCallBack(object : IPermissionResultCallback {
-                override fun onPermissionResult(permissionResult: PermissionResult) {
-                    resultCallback(permissionResult)
-                }
-            }).launch(permissions)
-    } ?: resultCallback(PermissionResult.Granted)
+    //过滤出被拒绝的权限
+    val deniedPermissions = activity.filterDeniedPermissions(permissions)
+    if (deniedPermissions.isEmpty()) {
+        //权限全都有那就直接回调了
+        resultCallback(PermissionResult.Granted)
+    } else {
+        //有些权限是没有的，那就去申请
+        RequestLauncher.launch(deniedPermissions, activity, resultCallback)
+    }
 }
 
 /**
@@ -71,7 +72,7 @@ suspend fun FragmentActivity.requestPermissionsWithCoroutine(vararg permissions:
  */
 fun FragmentActivity.requestPermissionsWithCallback(
     vararg permissions: String,
-    resultCallback: (permissionResult: PermissionResult) -> Unit
+    resultCallback: PermissionResultInterface
 ) {
     requestPermissionsCore(this, *permissions) {
         resultCallback(it)
@@ -84,7 +85,7 @@ fun FragmentActivity.requestPermissionsWithCallback(
  */
 fun Fragment.requestPermissionsWithCallback(
     vararg permissions: String,
-    resultCallback: (permissionResult: PermissionResult) -> Unit
+    resultCallback: PermissionResultInterface
 ) {
     requireActivity().requestPermissionsWithCallback(*permissions) {
         resultCallback(it)
@@ -122,7 +123,7 @@ fun FragmentActivity.requestPermissions(
     vararg permissions: String
 ): RequestCallbackOption {
     return RequestCallbackOption().apply {
-        MainExecutor.post {
+        mainThreadHandler.post {
             requestPermissionsWithCallback(*permissions) {
                 invoke(it)
             }

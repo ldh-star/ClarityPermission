@@ -20,7 +20,12 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
     /**
      * 对外的权限申请回调
      */
-    var permissionCallBack: IPermissionResultCallback? = null
+    var permissionCallBack: PermissionResultInterface? = null
+
+    /**
+     * 移除自己后的回调
+     */
+    var destroyedCallback: (() -> Unit)? = null
 
     private val mActivityLifecycleObserver = object : LifecycleEventObserver {
         override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -35,12 +40,6 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
             }
         }
     }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        requireActivity().lifecycle.addObserver(mActivityLifecycleObserver)
-    }
-
 
     /**
      * 注册的Activity申请到的权限的回调
@@ -60,10 +59,10 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
         }
         if (denied.isEmpty()) {
             //没有被拒绝的，那就是全部同意了
-            permissionCallBack?.onPermissionResult(PermissionResult.Granted)
+            permissionCallBack?.invoke(PermissionResult.Granted)
         } else {
             //有被拒绝的
-            permissionCallBack?.onPermissionResult(
+            permissionCallBack?.invoke(
                 PermissionResult.Denied(
                     denied,
                     deniedPermanently
@@ -73,12 +72,20 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
         removeThis()
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        requireActivity().lifecycle.addObserver(mActivityLifecycleObserver)
+    }
+
     /**
      * 权限申请完了过后就可以移除自己了
      */
     private fun removeThis() {
         requireActivity().lifecycle.removeObserver(mActivityLifecycleObserver)
         parentFragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
+        mainThreadHandler.post {
+            destroyedCallback?.invoke()
+        }
     }
 
 }

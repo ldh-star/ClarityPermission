@@ -26,7 +26,7 @@ fun Context.isPermissionGranted(permission: String) =
  * 判断某项权限是否被永久拒绝
  */
 fun Activity.isPermissionDeniedPermanently(permission: String) =
-    ActivityCompat.shouldShowRequestPermissionRationale(
+    !ActivityCompat.shouldShowRequestPermissionRationale(
         this,
         permission
     )
