@@ -22,22 +22,23 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
      */
     var permissionCallBack: IPermissionResultCallback? = null
 
+    private val mActivityLifecycleObserver = object : LifecycleEventObserver {
+        override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+            if (event == Lifecycle.Event.ON_CREATE) {
+                requireActivity().lifecycle.removeObserver(this)
+                //注册权限请求回调
+                val requester = registerForActivityResult(
+                    ActivityResultContracts.RequestMultiplePermissions(),
+                    mPermissionCallback
+                )
+                requester.launch(mRequestInfo)
+            }
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        requireActivity().lifecycle.addObserver(object : LifecycleEventObserver {
-            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (event == Lifecycle.Event.ON_CREATE) {
-                    requireActivity().lifecycle.removeObserver(this)
-                    //注册权限请求回调
-                    val requester = registerForActivityResult(
-                        ActivityResultContracts.RequestMultiplePermissions(),
-                        mPermissionCallback
-                    )
-                    requester.launch(mRequestInfo)
-                }
-            }
-        })
+        requireActivity().lifecycle.addObserver(mActivityLifecycleObserver)
     }
 
 
@@ -76,6 +77,7 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
      * 权限申请完了过后就可以移除自己了
      */
     private fun removeThis() {
+        requireActivity().lifecycle.removeObserver(mActivityLifecycleObserver)
         parentFragmentManager.beginTransaction().remove(this).commitAllowingStateLoss()
     }
 
