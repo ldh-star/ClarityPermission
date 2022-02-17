@@ -37,7 +37,6 @@ private fun requestPermissionsCore(
     resultCallback: (permissionResult: PermissionResult) -> Unit
 ) {
     //提前先检查一遍，如果所有权限都是已授权的，那就不去启动那个fragment了，直接进行回调
-
     permissions.firstOrNull { !activity.isPermissionGranted(it) }?.let {
         RequestLauncher(activity)
             .setCallBack(object : IPermissionResultCallback {

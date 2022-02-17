@@ -1,6 +1,5 @@
 package com.liangguo.claritypermission.core
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.liangguo.claritypermission.filterDeniedPermissions
 import java.lang.ref.WeakReference
@@ -11,29 +10,18 @@ import java.lang.ref.WeakReference
  * 时间: 2021/12/12 16:59
  * 邮箱: 2637614077@qq.com
  */
-internal class RequestLauncher {
+internal class RequestLauncher(private val mActivityReference: WeakReference<FragmentActivity>) {
 
     companion object {
         private const val FRAGMENT_TAG = "FRAGMENT_TAG"
     }
 
-    private var mActivityReference: WeakReference<FragmentActivity>
-
     private var mRequestCallback: IPermissionResultCallback? = null
-
-    constructor(activity: FragmentActivity) {
-        mActivityReference = WeakReference(activity)
-    }
-
-    constructor(fragment: Fragment) {
-        mActivityReference = WeakReference(fragment.requireActivity())
-    }
 
     fun setCallBack(requestCallback: IPermissionResultCallback?): RequestLauncher {
         this.mRequestCallback = requestCallback
         return this
     }
-
 
     /**
      * 基础版，只设置了请求哪些权限
