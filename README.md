@@ -54,4 +54,8 @@ requestPermissions(Manifest.permission.RECORD_AUDIO).granted {
  }
 ```
 
-对了，除了这些以外还有一些小工具放在PermissionExt.kt中的，可以去使用
+
+注意：申请多个权限应把这些权限放到一起一次申请，而不是分成多次申请。
+
+
+对了，除了这些以外还有一些小工具放在PermissionExt.kt中的，可以去使用。
