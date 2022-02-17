@@ -1,7 +1,7 @@
 
 # 超简单的权限申请-ClarityPermission
-![](https://api.bintray.com/packages/li-xiaojun/jrepo/xpopup/images/download.svg)  
-![](https://img.shields.io/badge/author-ldh-brightgreen.svg) ![](https://img.shields.io/badge/compileSdkVersion-32-orange.svg) ![](https://img.shields.io/badge/minSdkVersion-21-orange.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
+
+[![](https://jitpack.io/v/ldh-star/ClarityPermission.svg)](https://jitpack.io/#ldh-star/ClarityPermission) ![](https://img.shields.io/badge/author-ldh-orange.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 
 
 ### 使用
@@ -10,7 +10,8 @@
 
 
 ```gradle
-implementation 'com.github.ldh-star:ClarityPermission:1.0.5'
+版本号见上面
+implementation 'com.github.ldh-star:ClarityPermission:1.0.6'
 ```
 
 #### 2.使用
