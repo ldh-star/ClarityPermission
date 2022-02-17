@@ -30,8 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun click2(view: View) {
-
-        requestPermissions(CAMERA, RECORD_AUDIO).granted {
+        requestPermissions(CAMERA, RECORD_AUDIO, READ_CONTACTS, WRITE_CONTACTS).granted {
             //权限被同意
             Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
 
@@ -44,12 +43,5 @@ class MainActivity : AppCompatActivity() {
             ).show()
 
         }
-
-
-        requestPermissions(READ_CONTACTS, WRITE_CONTACTS).granted {
-            Toast.makeText(this@MainActivity, it.javaClass.simpleName, Toast.LENGTH_LONG).show()
-
-        }
-
     }
 }

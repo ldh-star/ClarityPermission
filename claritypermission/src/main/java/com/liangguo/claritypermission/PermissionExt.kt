@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 /**
  * @author ldh
  * 时间: 2022/2/13 9:59
- * 邮箱: 2637614077@qq.comgit config --global http.sslVerify "false"
+ * 邮箱: 2637614077@qq.com
  */
 
 /**
