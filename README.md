@@ -10,7 +10,7 @@
 
 
 ```gradle
-implementation 'com.github.ldh-star:ClarityPermission:版本号见上面'
+implementation 'com.gitee.liang_dh:ClarityPermission:版本号见上面'
 ```
 
 #### 2.使用
