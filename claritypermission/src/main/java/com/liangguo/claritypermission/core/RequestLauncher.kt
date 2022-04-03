@@ -37,7 +37,6 @@ internal object RequestLauncher {
         return this
     }
 
-
     /**
      * 启动Fragment来进行权限申请
      */
