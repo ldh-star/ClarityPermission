@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.ViewModelProvider
 import com.liangguo.claritypermission.isPermissionDeniedPermanently
 
 
@@ -15,7 +16,7 @@ import com.liangguo.claritypermission.isPermissionDeniedPermanently
  * 时间: 2021/12/12 15:34
  * 邮箱: 2637614077@qq.com
  */
-internal class PermissionFragment(private var mRequestInfo: Array<out String>) : Fragment() {
+internal class PermissionFragment : Fragment() {
 
     /**
      * 对外的权限申请回调
@@ -27,6 +28,10 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
      */
     var destroyedCallback: (() -> Unit)? = null
 
+    private val mViewModel by lazy {
+        ViewModelProvider(requireActivity())[PermissionViewModel::class.java]
+    }
+
     private val mActivityLifecycleObserver = object : LifecycleEventObserver {
         override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
             if (event == Lifecycle.Event.ON_CREATE) {
@@ -36,7 +41,10 @@ internal class PermissionFragment(private var mRequestInfo: Array<out String>) :
                     ActivityResultContracts.RequestMultiplePermissions(),
                     mPermissionCallback
                 )
-                requester.launch(mRequestInfo)
+
+                mViewModel.requestInfo.observe(this@PermissionFragment) {
+                    requester.launch(it)
+                }
             }
         }
     }

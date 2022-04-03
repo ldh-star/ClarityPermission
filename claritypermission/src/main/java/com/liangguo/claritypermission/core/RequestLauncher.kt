@@ -1,6 +1,7 @@
 package com.liangguo.claritypermission.core
 
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ViewModelProvider
 
 
 /**
@@ -45,7 +46,8 @@ internal object RequestLauncher {
         activity: FragmentActivity,
         callback: PermissionResultInterface
     ) {
-        val newFragment = PermissionFragment(permissions)
+        val newFragment = PermissionFragment()
+        ViewModelProvider(activity)[PermissionViewModel::class.java].requestInfo.value = permissions
         newFragment.permissionCallBack = callback
         activity.supportFragmentManager
             .beginTransaction()
