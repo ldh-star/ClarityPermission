@@ -1,7 +1,7 @@
 
 # 超简单的权限申请-ClarityPermission
 
-[![](https://jitpack.io/v/ldh-star/ClarityPermission.svg)](https://jitpack.io/#ldh-star/ClarityPermission) ![](https://img.shields.io/badge/author-ldh-orange.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
+[![](https://jitpack.io/v/com.gitee.liang_dh/ClarityPermission.svg)](https://jitpack.io/#com.gitee.liang_dh/ClarityPermission) ![](https://img.shields.io/badge/author-ldh-orange.svg) ![](https://img.shields.io/hexpm/l/plug.svg)
 
 
 ### 使用
